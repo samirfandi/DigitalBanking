@@ -6,9 +6,12 @@ title Bank Account Class Diagram
 
 class BankAccount {
     +id: String 
+    +Balance: double
     +createdAt: Date 
     +status: AccountStatus
     +currency: String
+    +customer: Customer
+    +accountOperations: List<Operation>
 }
 
 
@@ -25,18 +28,20 @@ SavingAccount .up.|> BankAccount
 
 
 class Customer {
-    id: String
-    name: String
-    email: String
+    +id: String
+    +name: String
+    +email: String
+    +bankAccounts: List<BankAccount>
 }
 
 Customer "1" -- "0..*" BankAccount : owns
 
 class Operation{
-    id: Long 
-    date: Date 
-    amount: double 
-    type: OperationType 
+    +id: Long 
+    +date: Date 
+    +amount: double 
+    +type: OperationType 
+    +bankAccount: BankAccount
 }
 
 enum OperationType{
