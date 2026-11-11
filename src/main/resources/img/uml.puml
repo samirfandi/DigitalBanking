@@ -1,0 +1,59 @@
+@startuml
+
+skinparam Margin 15
+
+title Bank Account Class Diagram
+
+class BankAccount {
+    +id: String 
+    +createdAt: Date 
+    +status: AccountStatus
+    +currency: String
+}
+
+
+class CurrentAccount{
+     +overDraft:double
+}
+
+class SavingAccount{
+    +interestRate:double
+}
+
+CurrentAccount .up.|> BankAccount
+SavingAccount .up.|> BankAccount
+
+
+class Customer {
+    id: String
+    name: String
+    email: String
+}
+
+Customer "1" -- "0..*" BankAccount : owns
+
+class Operation{
+    id: Long 
+    date: Date 
+    amount: double 
+    type: OperationType 
+}
+
+enum OperationType{
+    CREDIT, DEBIT
+}
+
+Operation ..> OperationType : uses
+
+enum AccountStatus{
+    CREATED, ACTIVATED, SUSPENDED
+}
+
+BankAccount .up.> AccountStatus: uses
+
+
+
+BankAccount "1" -up- "0..*" Operation : makes
+
+
+@enduml
