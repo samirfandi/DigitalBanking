@@ -3,12 +3,14 @@ package org.sid.ebankingbackend.entities;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity 
 @DiscriminatorValue ("CA")
-@Data @AllArgsConstructor @NoArgsConstructor 
+@AllArgsConstructor @NoArgsConstructor 
+@Getter @Setter
 public class CurrentAccount extends BankAccount{
 
     private double overDraft;

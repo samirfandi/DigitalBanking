@@ -5,6 +5,8 @@ import java.util.Date;
 import org.hibernate.annotations.ManyToAny;
 import org.sid.ebankingbackend.enums.OperationType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,9 +24,9 @@ public class Operation {
     private Long id;
     private Date operationDate;
     private double amount;
+    @Enumerated (EnumType.STRING)
     private OperationType type;
     @ManyToOne 
-    //@JoinColumn(name = "bank_account_id")
     private BankAccount bankAccount;
 
 }
