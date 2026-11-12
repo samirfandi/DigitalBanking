@@ -10,7 +10,7 @@ import lombok.Setter;
 @Entity 
 @DiscriminatorValue ("SA")
 @Getter @Setter  @AllArgsConstructor @NoArgsConstructor 
-public class SavaingAccount extends BankAccount{
+public class SavingAccount extends BankAccount{
 
     private double interestRate;
 

@@ -1,7 +1,9 @@
 package org.sid.ebankingbackend.mappers;
 
+import org.sid.ebankingbackend.dtos.CurrentAccountDTO;
 import org.sid.ebankingbackend.dtos.CustomerDTO;
-import org.sid.ebankingbackend.entities.Customer;
+import org.sid.ebankingbackend.dtos.SavingAccountDTO;
+import org.sid.ebankingbackend.entities.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +32,48 @@ public class BankAccountMapperImp {
         BeanUtils.copyProperties(customerDTO, customer);
 
         return customer;
+    }
+
+
+    public SavingAccountDTO fromSavingAccount(SavingAccount savingAccount){
+
+        SavingAccountDTO savingAccountDTO = new SavingAccountDTO();
+        BeanUtils.copyProperties(savingAccount, savingAccountDTO);
+        savingAccountDTO.setCustomerDTO(fromCustomer(savingAccount.getCustomer()));
+
+        return savingAccountDTO;
+    }
+
+
+
+    public SavingAccount fromSavingAccountDTO(SavingAccountDTO savingAccountDTO){
+
+        SavingAccount savingAccount = new SavingAccount();
+        BeanUtils.copyProperties(savingAccountDTO, savingAccount);
+        savingAccount.setCustomer(fromCustomerDTO(savingAccountDTO.getCustomerDTO()));
+        
+        return savingAccount;
+    }
+
+
+
+    public CurrentAccountDTO fromCurrentAccount(CurrentAccount currentAccount){
+
+        CurrentAccountDTO currentAccountDTO = new CurrentAccountDTO();
+        BeanUtils.copyProperties(currentAccount, currentAccountDTO);
+        currentAccountDTO.setCustomerDTO(fromCustomer(currentAccount.getCustomer()));
+
+        return currentAccountDTO;
+    }
+
+
+    public CurrentAccount fromCurrentAccountDTO(CurrentAccountDTO currentAccountDTO){
+
+        CurrentAccount currentAccount = new CurrentAccount();
+        BeanUtils.copyProperties(currentAccountDTO, currentAccount);
+        currentAccount.setCustomer(fromCustomerDTO(currentAccountDTO.getCustomerDTO()));
+
+        return currentAccount;
     }
 
 }

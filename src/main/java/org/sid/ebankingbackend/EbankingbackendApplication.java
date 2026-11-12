@@ -47,7 +47,10 @@ public class EbankingbackendApplication {
 			});
 
 
+
+			/** 
 			bankAccountService.bankAccountList().forEach(bankAccount -> {
+
 				for(int i=0; i<3; i++){
 					try {
 						bankAccountService.credit(bankAccount.getId(), 1000+Math.random()*1000, "Credit");
@@ -62,7 +65,7 @@ public class EbankingbackendApplication {
 				}
 				
 			});
-
+			*/
 
 		};
 	}
