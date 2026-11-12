@@ -3,6 +3,7 @@ package org.sid.ebankingbackend;
 
 import java.util.stream.Stream;
 
+import org.sid.ebankingbackend.dtos.CustomerDTO;
 import org.sid.ebankingbackend.entities.Customer;
 import org.sid.ebankingbackend.exceptions.BalanceNotSufficientException;
 import org.sid.ebankingbackend.exceptions.BankAccountNotFoundException;
@@ -21,12 +22,12 @@ public class EbankingbackendApplication {
 	}
 
 
-	@Bean 
+	//@Bean 
 	CommandLineRunner start(BankAccountService bankAccountService){
 		return args -> {
 
 			Stream.of("Fatima", "Mohamed", "Issa").forEach(name -> {
-				Customer customer = new Customer();
+				CustomerDTO customer = new CustomerDTO();
 				customer.setName(name);
 				customer.setEmail(name+"@gmail.com");
 				bankAccountService.saveCustomer(customer);
