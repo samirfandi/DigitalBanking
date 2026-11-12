@@ -5,7 +5,6 @@ import java.util.List;
 import org.sid.ebankingbackend.dtos.CustomerDTO;
 import org.sid.ebankingbackend.entities.BankAccount;
 import org.sid.ebankingbackend.entities.CurrentAccount;
-import org.sid.ebankingbackend.entities.Customer;
 import org.sid.ebankingbackend.entities.SavaingAccount;
 import org.sid.ebankingbackend.exceptions.BalanceNotSufficientException;
 import org.sid.ebankingbackend.exceptions.BankAccountNotFoundException;
