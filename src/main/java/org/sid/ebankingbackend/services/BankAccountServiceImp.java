@@ -3,7 +3,11 @@ package org.sid.ebankingbackend.services;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import org.sid.ebankingbackend.dtos.CustomerDTO;
 import org.sid.ebankingbackend.entities.BankAccount;
 import org.sid.ebankingbackend.entities.CurrentAccount;
 import org.sid.ebankingbackend.entities.Customer;
@@ -14,6 +18,7 @@ import org.sid.ebankingbackend.enums.OperationType;
 import org.sid.ebankingbackend.exceptions.BalanceNotSufficientException;
 import org.sid.ebankingbackend.exceptions.BankAccountNotFoundException;
 import org.sid.ebankingbackend.exceptions.CustomerNotFoundException;
+import org.sid.ebankingbackend.mappers.BankAccountMapperImp;
 import org.sid.ebankingbackend.repositories.AccountOperationRepository;
 import org.sid.ebankingbackend.repositories.BankAccountRepository;
 import org.sid.ebankingbackend.repositories.CustomerRepository;
@@ -30,15 +35,42 @@ public class BankAccountServiceImp implements BankAccountService{
     private CustomerRepository customerRepository;
     private BankAccountRepository bankAccountRepository;
     private AccountOperationRepository accountOperationRepository;
+    private BankAccountMapperImp bankAccountMapperImp;
 
 
     @Override
-    public Customer saveCustomer(Customer customer) {
+    public CustomerDTO saveCustomer(CustomerDTO customerDTO) {
 
-        log.info("A new Customer has been created ");
-        Customer customer2 = customerRepository.save(customer);
-        return customer2;
-       
+        log.info("Saving a new customer");
+
+        Customer customer = bankAccountMapperImp.fromCustomerDTO(customerDTO);
+        Customer savedCustomer = customerRepository.save(customer);
+        CustomerDTO res = bankAccountMapperImp.fromCustomer(savedCustomer);
+
+        return res;
+    }
+
+
+
+    @Override
+    public CustomerDTO updateCustomer(CustomerDTO customerDTO) {
+
+        log.info("Update a customer's informations");
+
+        Customer customer = bankAccountMapperImp.fromCustomerDTO(customerDTO);
+        Customer savedCustomer = customerRepository.save(customer);
+        CustomerDTO res = bankAccountMapperImp.fromCustomer(savedCustomer);
+
+        return res;
+    }
+
+
+    @Override
+    public void deleteCustomer(Long customerId) {
+
+        log.info("Delete a customer");
+        
+        customerRepository.deleteById(customerId);
     }
 
 
@@ -90,11 +122,15 @@ public class BankAccountServiceImp implements BankAccountService{
     }    
 
     @Override
-    public List<Customer> listCustomers() {
+    public List<CustomerDTO> listCustomers() {
        
-        List<Customer> list = customerRepository.findAll();
-        
-        return list;
+        List<Customer> listCustomers = customerRepository.findAll();
+
+        List<CustomerDTO> listCustomerDTO = listCustomers.stream()
+                            .map(customer -> bankAccountMapperImp.fromCustomer(customer))
+                            .collect(Collectors.toList());
+
+        return listCustomerDTO;
     }
 
     @Override
@@ -161,6 +197,18 @@ public class BankAccountServiceImp implements BankAccountService{
         List<BankAccount> list = bankAccountRepository.findAll();
         
         return list;
+    }
+
+
+    @Override 
+    public CustomerDTO getCustomer(Long customerId) throws CustomerNotFoundException{
+
+        Customer customer = customerRepository.findById(customerId)
+                        .orElseThrow(()-> new CustomerNotFoundException("Customer not found"));
+
+        CustomerDTO customerDTO = bankAccountMapperImp.fromCustomer(customer);
+        
+        return customerDTO;
     }
 
 
