@@ -2,6 +2,7 @@ package org.sid.ebankingbackend.mappers;
 
 import org.sid.ebankingbackend.dtos.CurrentAccountDTO;
 import org.sid.ebankingbackend.dtos.CustomerDTO;
+import org.sid.ebankingbackend.dtos.OperationDTO;
 import org.sid.ebankingbackend.dtos.SavingAccountDTO;
 import org.sid.ebankingbackend.entities.*;
 import org.springframework.beans.BeanUtils;
@@ -40,6 +41,7 @@ public class BankAccountMapperImp {
         SavingAccountDTO savingAccountDTO = new SavingAccountDTO();
         BeanUtils.copyProperties(savingAccount, savingAccountDTO);
         savingAccountDTO.setCustomerDTO(fromCustomer(savingAccount.getCustomer()));
+        savingAccountDTO.setType(savingAccount.getClass().getSimpleName());
 
         return savingAccountDTO;
     }
@@ -62,6 +64,7 @@ public class BankAccountMapperImp {
         CurrentAccountDTO currentAccountDTO = new CurrentAccountDTO();
         BeanUtils.copyProperties(currentAccount, currentAccountDTO);
         currentAccountDTO.setCustomerDTO(fromCustomer(currentAccount.getCustomer()));
+        currentAccountDTO.setType(currentAccount.getClass().getSimpleName());
 
         return currentAccountDTO;
     }
@@ -74,6 +77,16 @@ public class BankAccountMapperImp {
         currentAccount.setCustomer(fromCustomerDTO(currentAccountDTO.getCustomerDTO()));
 
         return currentAccount;
+    }
+
+
+    public OperationDTO fromOpeartion(Operation opeartion){
+
+        OperationDTO opeartionDTO = new OperationDTO();
+        BeanUtils.copyProperties(opeartion, opeartionDTO);
+
+        return opeartionDTO;
+
     }
 
 }
